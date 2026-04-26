@@ -1,0 +1,19 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Whisper model weights (too large for git)
+whisper/
+
+# macOS
+.DS_Store
+
+# Non-project documents
+prd1.md
