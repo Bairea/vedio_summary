@@ -8,19 +8,13 @@ import express, {
   type NextFunction,
 } from 'express'
 import cors from 'cors'
-import path from 'path'
 import dotenv from 'dotenv'
-import { fileURLToPath } from 'url'
 import tasksRoutes from './routes/tasks.js'
 import settingsRoutes from './routes/settings.js'
 import { asyncHandler } from './lib/asyncHandler.js'
 import { getHealthSnapshot } from './services/healthService.js'
 import { loadSettings } from './repositories/settingsRepo.js'
 import { setTaskOutputDir } from './lib/paths.js'
-
-// for esm mode
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 // load env
 dotenv.config()
@@ -52,7 +46,7 @@ app.get(
 /**
  * error handler middleware
  */
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((error: Error, req: Request, res: Response, _next: NextFunction) => {
   res.status(500).json({ success: false, error: error.message || 'Server internal error' })
 })
 

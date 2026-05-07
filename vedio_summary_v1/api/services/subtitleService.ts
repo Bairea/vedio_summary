@@ -54,7 +54,9 @@ async function writeSubtitleArtifacts(
 }
 
 function normalizeAsrLanguage(language?: string): string | undefined {
-  const first = language?.split(",")[0]?.trim();
+  if (!language) return undefined;
+  if (language.includes(",")) return undefined;
+  const first = language.trim();
   if (!first) return undefined;
   if (first.toLowerCase().startsWith("zh")) return "zh";
   if (first.length >= 2) return first.slice(0, 2).toLowerCase();

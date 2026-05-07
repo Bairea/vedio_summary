@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Panel from "@/components/Panel";
 import Button from "@/components/Button";
@@ -38,30 +38,30 @@ export default function TaskDetail() {
     return fmts.map((f) => ({ f, href: `/api/tasks/${taskId}/subtitles?format=${f}` }));
   }, [taskId]);
 
-  async function loadTask() {
+  const loadTask = useCallback(async () => {
     const t = await apiFetch<TaskDTO>(`/api/tasks/${taskId}`);
     setTask(t);
-  }
+  }, [taskId]);
 
-  async function loadSubtitles() {
+  const loadSubtitles = useCallback(async () => {
     const resp = await fetch(`/api/tasks/${taskId}/subtitles?format=txt`);
     if (!resp.ok) {
       setSubtitles("");
       return;
     }
     setSubtitles(await resp.text());
-  }
+  }, [taskId]);
 
-  async function loadSummary() {
+  const loadSummary = useCallback(async () => {
     try {
       const resp = await apiFetch<{ markdown: string }>(`/api/tasks/${taskId}/summary`);
       setSummary(resp.markdown);
     } catch {
       setSummary("");
     }
-  }
+  }, [taskId]);
 
-  async function loadMindmap() {
+  const loadMindmap = useCallback(async () => {
     try {
       const resp = await apiFetch<MindmapDTO>(`/api/tasks/${taskId}/mindmap`);
       setMindmap(resp);
@@ -69,23 +69,23 @@ export default function TaskDetail() {
       setMindmap(undefined);
       setMindmapSvg("");
     }
-  }
+  }, [taskId]);
 
-  async function loadQaHistory() {
+  const loadQaHistory = useCallback(async () => {
     try {
       const resp = await apiFetch<{ messages: QAMessageDTO[] }>(`/api/tasks/${taskId}/qa/messages`);
       setQaHistory(resp.messages);
     } catch {
       setQaHistory([]);
     }
-  }
+  }, [taskId]);
 
   useEffect(() => {
     if (!taskId) return;
     loadTask();
     const t = setInterval(() => loadTask(), 1200);
     return () => clearInterval(t);
-  }, [taskId]);
+  }, [loadTask, taskId]);
 
   useEffect(() => {
     if (!taskId) return;
@@ -93,7 +93,7 @@ export default function TaskDetail() {
     if (tab === "summary") loadSummary();
     if (tab === "mindmap") loadMindmap();
     if (tab === "qa") loadQaHistory();
-  }, [tab, taskId]);
+  }, [loadMindmap, loadQaHistory, loadSubtitles, loadSummary, tab, taskId]);
 
   async function copyText(s: string) {
     await navigator.clipboard.writeText(s);
@@ -174,8 +174,8 @@ export default function TaskDetail() {
         </Panel>
       </div>
 
-      <div className="grid min-h-0 grid-cols-1 gap-6 xl:grid-cols-[300px_minmax(0,1fr)]">
-        <Panel className="flex min-h-[220px] flex-col overflow-hidden p-4">
+      <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-[300px_minmax(0,1fr)]">
+        <Panel className="flex min-h-[220px] flex-col p-4">
           <div className="text-sm font-semibold">模块</div>
           <div className="mt-3 flex flex-col gap-2">
             {(
@@ -205,7 +205,7 @@ export default function TaskDetail() {
           </div>
         </Panel>
 
-        <Panel className="min-h-[520px] overflow-hidden p-4">
+        <Panel className="flex min-h-[520px] flex-col p-4">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div className="text-sm font-semibold">
               {tab === "subtitles" ? "字幕" : tab === "summary" ? "AI 摘要" : tab === "mindmap" ? "思维导图" : "AI 问答"}
@@ -261,7 +261,7 @@ export default function TaskDetail() {
             </div>
           </div>
 
-          <div className="mt-4 h-[calc(100%-56px)] overflow-hidden">
+          <div className="mt-4 min-h-0 flex-1">
             {tab === "subtitles" ? (
               <div className="h-full overflow-auto rounded-2xl border border-white/10 bg-ink-900/35 p-4 font-mono text-sm leading-6 text-white/80">
                 {subtitles ? subtitles : <div className="text-white/55">暂无字幕（或字幕尚未生成）</div>}

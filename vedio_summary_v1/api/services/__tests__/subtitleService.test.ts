@@ -131,3 +131,34 @@ test("fetchSubtitles surfaces local whisper execution failures", async () => {
     /本地 Whisper 转写失败/,
   );
 });
+
+test("fetchSubtitles lets whisper auto-detect language when UI sends multiple preferences", async () => {
+  const projectDir = await createTempProjectDir();
+  process.chdir(projectDir);
+
+  let receivedLanguage: string | undefined = "__unset__";
+
+  const result = await (fetchSubtitles as any)(
+    {
+      taskId: "task-asr-auto-language",
+      url: "https://example.com/video",
+      language: "zh-Hans,en",
+    },
+    {
+      downloadSubtitles: async () => {},
+      downloadMedia: async (_url: string, outDir: string) => {
+        await fs.mkdir(outDir, { recursive: true });
+        await fs.writeFile(path.join(outDir, "audio.m4a"), "audio", "utf-8");
+      },
+      loadSettings: async () => buildSettings(true),
+      transcribeWithWhisper: async ({ language }: { language?: string }) => {
+        receivedLanguage = language;
+        return [{ startMs: 0, endMs: 1000, text: "hello world" }];
+      },
+    },
+  );
+
+  assert.equal(receivedLanguage, undefined);
+  assert.equal(result.source, "asr");
+  assert.equal(result.segments[0]?.text, "hello world");
+});

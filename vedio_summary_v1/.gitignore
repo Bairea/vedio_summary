@@ -13,6 +13,11 @@ dist-ssr
 .data
 .venv
 *.local
+.env
+.env.*
+!.env.example
+cookies.txt
+*.cookies.txt
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +30,10 @@ dist-ssr
 *.sln
 *.sw?
 .vite
+
+# Tool artifacts
+.trae/
+docs/superpowers/
+
+# Whisper model weights (too large for git)
+whisper/

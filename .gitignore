@@ -8,6 +8,31 @@ wheels/
 
 # Virtual environments
 .venv
+vedio_summary_v1/.venv
+
+# Node / frontend artifacts
+node_modules/
+vedio_summary_v1/node_modules/
+vedio_summary_v1/dist/
+vedio_summary_v1/dist-ssr/
+vedio_summary_v1/.vite/
+
+# Local runtime data and secrets
+.env
+.env.*
+!.env.example
+vedio_summary_v1/.env
+vedio_summary_v1/.env.*
+!vedio_summary_v1/.env.example
+vedio_summary_v1/.data/
+*.log
+cookies.txt
+*.cookies.txt
+
+# Agent/tool runtime state
+.omx/
+.claude/
+.trae/
 
 # Whisper model weights (too large for git)
 whisper/

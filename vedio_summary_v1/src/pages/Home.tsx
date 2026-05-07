@@ -281,7 +281,7 @@ export default function Home() {
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={async (e) => {
+                          onClick={async () => {
                             await retryTask(t.id);
                           }}
                         >
@@ -293,7 +293,7 @@ export default function Home() {
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={(e) => {
+                          onClick={() => {
                             cancelTask(t.id);
                           }}
                         >
@@ -304,7 +304,7 @@ export default function Home() {
                       <Button
                         size="sm"
                         variant="danger"
-                        onClick={(e) => {
+                        onClick={() => {
                           deleteTask(t.id);
                         }}
                       >

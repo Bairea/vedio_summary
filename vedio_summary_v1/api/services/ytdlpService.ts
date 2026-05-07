@@ -12,7 +12,7 @@ function splitLines(s: string): string[] {
   return s.split(/\r?\n/).filter(Boolean);
 }
 
-function getBiliWorkaroundArgs(url: string): string[] {
+export function getBiliWorkaroundArgs(url: string): string[] {
   let host = "";
   try {
     host = new URL(url).hostname.toLowerCase();

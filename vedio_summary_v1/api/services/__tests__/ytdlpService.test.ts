@@ -31,3 +31,16 @@ test("resolveCookiesPath keeps configured path when the file exists", async () =
 
   assert.equal(selected, "/custom/cookies.txt");
 });
+
+test("Bilibili smoke URL uses browser-like yt-dlp safeguards", async () => {
+  const { getBiliWorkaroundArgs } = await import("../ytdlpService.js");
+  const args = getBiliWorkaroundArgs(
+    "https://www.bilibili.com/video/BV196oZB8E4e/?spm_id_from=333.337.search-card.all.click&vd_source=4b1e7ee91746c43e976596a40a3d3e6f",
+  );
+
+  assert.ok(args.includes("--user-agent"));
+  assert.ok(args.includes("Referer:https://www.bilibili.com"));
+  assert.ok(args.includes("Origin:https://www.bilibili.com"));
+  assert.ok(args.includes("Accept-Language:zh-CN,zh;q=0.9,en;q=0.8"));
+  assert.deepEqual(args.slice(-6), ["--sleep-interval", "1", "--max-sleep-interval", "3", "--concurrent-fragments", "1"]);
+});

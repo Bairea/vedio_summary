@@ -1,15 +1,30 @@
 {
-  "name": "workspace",
+  "name": "video-summary-local",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Local YouTube and Bilibili video summarizer with subtitles, summaries, mindmaps, and cited QA.",
+  "license": "MIT",
   "type": "module",
+  "keywords": [
+    "video-summary",
+    "bilibili",
+    "youtube",
+    "yt-dlp",
+    "whisper",
+    "react",
+    "express"
+  ],
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
+  },
   "scripts": {
     "client:dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "check": "tsc --noEmit",
-    "test": "node --test",
+    "test": "tsx --test",
     "server:dev": "nodemon",
     "dev": "concurrently \"npm run client:dev\" \"npm run server:dev\""
   },
