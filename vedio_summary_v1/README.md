@@ -1,6 +1,6 @@
 # 视频总结器 MVP
 
-> 仓库级开源说明、贡献指南、CI 与安全策略位于上级目录。首次了解项目建议先阅读 [`../README.md`](../README.md)。
+> 仓库级开源入口、贡献规范、CI 与安全策略位于上级目录。首次了解项目建议先阅读 [`../README.md`](../README.md)。
 
 本项目是一个本地运行的 YouTube / Bilibili 视频总结器 MVP，当前已经验证可跑通以下链路：
 
@@ -165,11 +165,7 @@ npm run build
 
 ## 真实冒烟路径
 
-推荐使用仓库文档 [`../docs/smoke-test.md`](../docs/smoke-test.md) 中记录的 Bilibili 验收 URL：
-
-```text
-https://www.bilibili.com/video/BV196oZB8E4e/?spm_id_from=333.337.search-card.all.click&vd_source=4b1e7ee91746c43e976596a40a3d3e6f
-```
+推荐使用仓库根目录 README 中记录的 Bilibili 验收 URL。
 
 已在本机验证过一条真实 Bilibili 全流程任务，链路如下：
 
