@@ -30,11 +30,9 @@
 
 - 仓库内如果已有 `.data/bin/yt-dlp`，健康检查会优先识别该本地二进制。
 - 如果没有可用 `yt-dlp`，可在设置页填写路径，或后续由应用下载到 `.data/bin/yt-dlp`。
-- 本地 Whisper 当前约定使用工作区根目录下的固定模型目录：`/Users/bairea/Documents/cs_proj/vedio_summary/whisper`
-- 固定权重文件路径为：`/Users/bairea/Documents/cs_proj/vedio_summary/whisper/weights.npz`
-- 如平台字幕缺失且开启 ASR，系统会自动尝试本地 `mlx-whisper`
-- 应用会优先使用 `MLX_WHISPER_PYTHON`，其次自动识别项目内 `.venv/bin/python`，最后才回退到系统 `python3`
-- 问答现在会返回引用片段、时间范围，并在证据不足时明确提示
+- 本地 Whisper 默认使用仓库根目录下的 `whisper/` 作为模型目录。
+- 如平台字幕缺失且开启 ASR，系统会自动尝试本地 `mlx-whisper`。
+- 应用会优先使用 `MLX_WHISPER_PYTHON`，其次自动识别项目内 `.venv/bin/python`，最后才回退到系统 `python3`。
 
 ## 快速开始
 
@@ -59,15 +57,20 @@ uv pip install --python .venv/bin/python mlx-whisper
 export MLX_WHISPER_PYTHON="$(pwd)/.venv/bin/python"
 ```
 
-### 3. 准备固定 Whisper 模型目录
+### 3. 下载 Whisper 模型
 
-当前约定的固定目录为：
+Whisper 模型文件会被应用在仓库根目录下的 `whisper/` 中查找。
+本项目使用 MLX 格式的量化模型，从 Hugging Face 下载：
 
-```text
-/Users/bairea/Documents/cs_proj/vedio_summary/whisper
+```bash
+# 安装 huggingface-cli（如果尚未安装）
+uv pip install huggingface-hub
+
+# 下载 whisper-large-v3-turbo 的 4-bit 量化版到 whisper/ 目录
+huggingface-cli download mlx-community/whisper-large-v3-turbo-q4 --local-dir whisper
 ```
 
-至少需要：
+下载完成后目录结构应为：
 
 ```text
 whisper/
@@ -115,7 +118,7 @@ export DASHSCOPE_API_KEY="your-key"
 
 1. 执行 `npm install`
 2. 如需本地 ASR，执行 `uv venv .venv` 与 `uv pip install --python .venv/bin/python mlx-whisper`
-3. 确认 `whisper/config.json` 与 `whisper/weights.npz` 已存在
+3. 下载模型：`huggingface-cli download mlx-community/whisper-large-v3-turbo-q4 --local-dir whisper`
 4. 执行 `npm run dev`
 5. 打开 `http://localhost:5173/settings`
 6. 在设置页填写 `Base URL`、`API Key`、`Model`
