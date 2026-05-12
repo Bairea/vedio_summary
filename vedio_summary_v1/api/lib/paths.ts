@@ -8,6 +8,8 @@ export function setTaskOutputDir(outputDir?: string): void {
 }
 
 export function resolveDataDir(): string {
+  const configured = process.env.VIDEO_SUMMARY_DATA_DIR?.trim();
+  if (configured) return path.resolve(configured);
   return path.join(process.cwd(), ".data");
 }
 

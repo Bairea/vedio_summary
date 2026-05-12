@@ -4,6 +4,7 @@ import {
   buildLocalWhisperCommand,
   ensureLocalWhisperReady,
   parseLocalWhisperOutput,
+  resolveAsarUnpackedPath,
 } from "../localWhisper.js";
 
 test("buildLocalWhisperCommand: builds python command with optional language", () => {
@@ -22,6 +23,13 @@ test("buildLocalWhisperCommand: builds python command with optional language", (
     "/tmp/whisper",
     "zh",
   ]);
+});
+
+test("resolveAsarUnpackedPath: points external Python to unpacked helper scripts", () => {
+  assert.equal(
+    resolveAsarUnpackedPath("/Applications/App.app/Contents/Resources/app.asar/dist-electron/scripts/mlx_whisper_transcribe.py"),
+    "/Applications/App.app/Contents/Resources/app.asar.unpacked/dist-electron/scripts/mlx_whisper_transcribe.py",
+  );
 });
 
 test("ensureLocalWhisperReady: throws explicit error when weights file is missing", async () => {

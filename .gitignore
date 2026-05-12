@@ -15,6 +15,8 @@ node_modules/
 vedio_summary_v1/node_modules/
 vedio_summary_v1/dist/
 vedio_summary_v1/dist-ssr/
+vedio_summary_v1/dist-electron/
+vedio_summary_v1/release/
 vedio_summary_v1/.vite/
 
 # Local runtime data and secrets
@@ -33,6 +35,7 @@ cookies.txt
 .omx/
 .claude/
 .trae/
+AGENTS.md
 
 # Whisper model weights (too large for git)
 whisper/

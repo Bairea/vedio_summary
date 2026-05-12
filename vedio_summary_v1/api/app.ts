@@ -9,6 +9,7 @@ import express, {
 } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import path from 'node:path'
 import tasksRoutes from './routes/tasks.js'
 import settingsRoutes from './routes/settings.js'
 import { asyncHandler } from './lib/asyncHandler.js'
@@ -42,6 +43,18 @@ app.get(
     res.status(200).json(health)
   }),
 )
+
+const staticDir = process.env.VIDEO_SUMMARY_STATIC_DIR?.trim()
+if (staticDir) {
+  app.use(express.static(staticDir))
+  app.get('*', (req: Request, res: Response, next: NextFunction) => {
+    if (req.path.startsWith('/api')) {
+      next()
+      return
+    }
+    res.sendFile(path.join(staticDir, 'index.html'))
+  })
+}
 
 /**
  * error handler middleware

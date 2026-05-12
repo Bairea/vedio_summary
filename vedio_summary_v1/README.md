@@ -163,6 +163,29 @@ npm run build
 - TypeScript 检查通过
 - Vite 构建通过
 
+## Electron 桌面版
+
+桌面版复用现有 React + Express 应用：
+
+- Electron 主进程启动本地 Express API
+- Express 服务构建后的 Vite 静态页面
+- 前端继续通过相对路径访问 `/api`
+- 数据目录写入 Electron `userData/.data`，避免写入安装包
+
+命令：
+
+```bash
+npm run electron:dev
+npm run electron:pack
+npm run electron:dist
+```
+
+说明：
+
+- `electron:pack` 生成未签名目录包，适合本机验证。
+- `electron:dist` 用于生成分发产物；正式分发前仍需要补充图标、签名和 macOS notarization 等发布配置。
+- `yt-dlp`、cookies、Python、`mlx-whisper` 和 `whisper/` 模型权重仍按本地配置处理，不会默认打进安装包。
+
 ## 真实冒烟路径
 
 推荐使用仓库根目录 README 中记录的 Bilibili 验收 URL。

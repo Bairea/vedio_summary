@@ -15,9 +15,14 @@ export function ensureLocalWhisperReady({
 }
 
 export function getLocalWhisperScriptPath(importMetaUrl) {
-  return fileURLToPath(
+  const scriptPath = fileURLToPath(
     new URL("../scripts/mlx_whisper_transcribe.py", importMetaUrl),
   );
+  return resolveAsarUnpackedPath(scriptPath);
+}
+
+export function resolveAsarUnpackedPath(filePath) {
+  return filePath.replace(".asar/", ".asar.unpacked/");
 }
 
 export function buildLocalWhisperCommand({

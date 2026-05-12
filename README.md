@@ -51,6 +51,25 @@ npm run build
 npm run lint
 ```
 
+## 桌面 App 打包
+
+项目提供 Electron 打包入口。初次使用先安装依赖：
+
+```bash
+cd vedio_summary_v1
+npm install
+```
+
+常用命令：
+
+```bash
+npm run electron:dev    # 构建后用 Electron 本地打开
+npm run electron:pack   # 生成未签名的本机目录包，用于本地验证
+npm run electron:dist   # 生成安装分发产物，后续可接入签名/公证
+```
+
+桌面版会在 Electron `userData` 目录下保存 `.data`，不会把数据库、cookies、下载内容写进应用安装包。
+
 ## Bilibili 验收用例
 
 ```text
